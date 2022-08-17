@@ -17,6 +17,10 @@ pipeline{
         }
         steps {
             script{
+              sh 'printenv' 
+              params.each {param ->
+                println "${param.key} -> ${param.value} "
+              }
               sh "echo 'Building..'"
               def triggerCause = currentBuild.rawBuild.getCause(org.jenkinsci.plugins.pipeline.github.trigger.IssueCommentCause)
               sh "echo ${triggerCause.comment}"
