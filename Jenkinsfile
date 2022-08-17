@@ -3,9 +3,6 @@ pipeline{
   environment {
     TRIGGER_CAUSE = currentBuild.rawBuild.getCause(org.jenkinsci.plugins.pipeline.github.trigger.IssueCommentCause)
   }
-  parameters {
-    booleanParam('notifier', false, 'will do notification things...')
-  }
   triggers {
     githubPullRequest{
       admin('irishgordo')
