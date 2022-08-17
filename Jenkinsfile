@@ -1,5 +1,8 @@
 pipeline{
   agent any
+  environment {
+    TRIGGER_CAUSE = currentBuild.rawBuild.getCause(org.jenkinsci.plugins.pipeline.github.trigger.IssueCommentCause)
+  }
   parameters {
     booleanParam('notifier', false, 'will do notification things...')
   }
@@ -16,11 +19,12 @@ pipeline{
           timeout(time: 10, unit: "MINUTES")
         }
         steps {
-            script{
-              sh "echo 'Building..'"
-              def triggerCause = currentBuild.rawBuild.getCause(org.jenkinsci.plugins.pipeline.github.trigger.IssueCommentCause)
-              sh "echo ${triggerCause.comment}"
+            sh 'printenv' 
+            params.each {param ->
+              println "${param.key} -> ${param.value} "
             }
+            echo 'Building..'
+            echo "${TRIGGER_CAUSE.comment}"
         }
     }
     stage('Test') {
