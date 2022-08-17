@@ -15,7 +15,6 @@ pipeline{
                 println "${param.key} -> ${param.value} "
               }
               sh "echo 'Building..'"
-              sh 'echo "${TRIGGER_CAUSE.comment}"'
           }
         }
     }
