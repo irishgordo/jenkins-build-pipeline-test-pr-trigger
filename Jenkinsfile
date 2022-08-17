@@ -1,13 +1,23 @@
 pipeline{
   agent any
+  parameters {
+    booleanParam('notifier', false, 'will do notification things...')
+  }
   triggers {
-    issueCommentTrigger('.run-tests-*')
+    githubPullRequest{
+      admin('irishgordo')
+      orgWhitelist('harvester')
+    }
+    issueCommentTrigger('^run-tests-*')
   }
   stages {
     stage('Build') {
+        options {
+          timeout(time: 10, unit: "MINUTES")
+        }
         steps {
-            echo 'Building..'
             script{
+              sh "echo 'Building..'"
               def triggerCause = currentBuild.rawBuild.getCause(org.jenkinsci.plugins.pipeline.github.trigger.IssueCommentCause)
               sh "echo ${triggerCause.comment}"
             }
