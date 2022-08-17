@@ -19,12 +19,14 @@ pipeline{
           timeout(time: 10, unit: "MINUTES")
         }
         steps {
-            sh 'printenv' 
-            params.each {param ->
-              println "${param.key} -> ${param.value} "
-            }
-            echo 'Building..'
-            echo "${TRIGGER_CAUSE.comment}"
+          script{
+              sh 'printenv' 
+              params.each {param ->
+                println "${param.key} -> ${param.value} "
+              }
+              sh "echo 'Building..'"
+              sh 'echo "${TRIGGER_CAUSE.comment}"'
+          }
         }
     }
     stage('Test') {
