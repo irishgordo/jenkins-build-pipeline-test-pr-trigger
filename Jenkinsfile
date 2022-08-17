@@ -3,13 +3,6 @@ pipeline{
   environment {
     TRIGGER_CAUSE = currentBuild.rawBuild.getCause(org.jenkinsci.plugins.pipeline.github.trigger.IssueCommentCause)
   }
-  triggers {
-    githubPullRequest{
-      admin('irishgordo')
-      orgWhitelist('harvester')
-    }
-    issueCommentTrigger('^run-tests-*')
-  }
   stages {
     stage('Build') {
         options {
